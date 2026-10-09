@@ -5,6 +5,7 @@ import re
 import subprocess
 import sys
 from . import __version__
+from .answers import answer_question
 from .reference import SECTIONS, get_text, get_topic, list_topics, search_topics, export_pdf, open_pdf
 
 
@@ -60,6 +61,24 @@ def search_menu(section, plain=False, query=None):
             print('Choose a result number or 0.')
 
 
+def show_answer(question, section=None, plain=False):
+    text = answer_question(question, section)['answer']
+    if plain or not sys.stdout.isatty():
+        print(text)
+    else:
+        pydoc.pager(text)
+
+
+def answer_menu(section=None, plain=False):
+    scope = SECTIONS[section][0] if section is not None else 'all documents'
+    print(f'Answer a question - {scope}')
+    while True:
+        question = ask('Question (0 or blank to go back): ')
+        if question in ('', '0'):
+            return
+        show_answer(question, section, plain)
+
+
 def document_menu(section, plain=False):
     topics = list_topics(section)
     while True:
@@ -68,16 +87,19 @@ def document_menu(section, plain=False):
             indent = '  ' if item['level'] == 2 else ''
             print(f"{number}. {indent}{item['title']}")
         print('S. Search this document')
+        print('A. Answer a question from this document')
         print('0. Back to documents')
-        choice = ask('Select a section or S to search: ').lower()
+        choice = ask('Select a section, S to search, or A to ask: ').lower()
         if choice == '0':
             return
         if choice == 's':
             search_menu(section, plain)
+        elif choice == 'a':
+            answer_menu(section, plain)
         elif choice.isdigit() and 1 <= int(choice) <= len(topics):
             display(section, int(choice), plain)
         else:
-            print('Choose a section number, S, or 0.')
+            print('Choose a section number, S, A, or 0.')
 
 
 def menu(plain=False, pdf=False):
@@ -85,12 +107,16 @@ def menu(plain=False, pdf=False):
         print('\nTHUK\n' + '=' * 42)
         for number, (title, _) in SECTIONS.items():
             print(f'{number}. {title}')
+        print('6. Answer a question')
         print('0. Exit\n' + '=' * 42)
-        choice = ask('Select a document (1-5): ')
+        choice = ask('Select an option (1-6): ').lower()
         if choice == '0':
             return 0
+        if choice in ('6', 'a'):
+            answer_menu(plain=plain)
+            continue
         if choice not in {str(n) for n in SECTIONS}:
-            print('Choose a document from 1 to 5, or 0 to exit.')
+            print('Choose an option from 1 to 6, or 0 to exit.')
             continue
         if pdf:
             try:
@@ -110,15 +136,18 @@ def main(argv=None):
     group.add_argument('--pdf', action='store_true', help='open the original PDF')
     group.add_argument('--export-pdf', metavar='PATH', help='save the original PDF')
     group.add_argument('--search', metavar='TEXT', help='search the selected document, or all documents')
+    group.add_argument('--ask', metavar='QUESTION', help='answer from offline note excerpts, optionally within a document')
     group.add_argument('--full', action='store_true', help='print the complete document')
     parser.add_argument('--plain', action='store_true', help='disable the interactive pager')
     args = parser.parse_args(argv)
     if (args.topic is not None or args.export_pdf or args.full) and args.section is None:
         parser.error('--topic, --export-pdf and --full require a document number')
-    if args.topic is not None and (args.pdf or args.export_pdf or args.full or args.search is not None):
-        parser.error('--topic cannot be combined with PDF, full-document or search options')
+    if args.topic is not None and (args.pdf or args.export_pdf or args.full or args.search is not None or args.ask is not None):
+        parser.error('--topic cannot be combined with PDF, full-document, search or answer options')
     try:
-        if args.search is not None:
+        if args.ask is not None:
+            show_answer(args.ask, args.section, args.plain)
+        elif args.search is not None:
             if not args.search.strip():
                 raise ValueError('Enter a non-empty search query.')
             if args.section is not None and sys.stdin.isatty():
@@ -150,3 +179,4 @@ def main(argv=None):
     except (ValueError, OSError, subprocess.CalledProcessError) as exc:
         print(f'Thuk: {exc}', file=sys.stderr)
         return 1
+

@@ -35,6 +35,7 @@ THUK
 3. Django Code
 4. Docker Commands
 5. Git Commands
+6. Answer a question
 0. Exit
 ```
 
@@ -51,6 +52,35 @@ Choose `S. Search this document`, then type a keyword or phrase such as `migrati
 Thuk lists matching sections with match counts and preview lines. Choose a result to open its section. Every matching keyword in that section is highlighted as `[[keyword]]`, which is readable on Windows, Linux and macOS. After reading a search result you return to that document's contents. `0` at search results returns without opening a result; a blank query cancels search.
 
 Search maps each hit to its main chapter and opens that chapter with matching keywords highlighted. Contents-page hits appear under Document introduction.
+
+## Answer a question (offline)
+
+Choose `6. Answer a question` in the main menu to ask across all five documents.
+Inside a document, choose `A. Answer a question from this document` to restrict
+answers to that document. Type a question, for example `What is the difference
+between containers and virtual machines?` or `Explain MVT`.
+
+Thuk ranks passages using words from your question, simple plural matching and
+common acronyms. It returns up to three **exact excerpts** with document, main
+chapter, topic number and source line references. It requires no AI model, API
+key, internet or extra dependencies. This is extractive retrieval: it does not
+write a new explanation, solve exercises, or reliably understand every paraphrase.
+Matching passages may be incomplete; check the cited chapter for full context.
+Questions whose significant terms do not all match a passage get a clear no-match
+message; rephrase using words from your notes if needed.
+
+After each answer you can ask another question. Enter `0` or a blank question to
+return to the menu you opened it from. Existing reading and search navigation is
+preserved.
+
+```powershell
+thuk --ask "What is the difference between containers and virtual machines?"
+thuk 1 --ask "Explain MVT" --plain
+```
+
+The Python API is `answer_question(question, section=None, limit=3)`. It returns
+`question`, `found`, `answer` and `sources`; each source includes `section`,
+`document`, `topic`, `title`, `line_start`, `line_end` and `excerpt`.
 
 ## Other commands
 

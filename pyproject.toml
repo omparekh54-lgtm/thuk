@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thuk"
-version = "1.0.1"
+version = "1.1.0"
 description = "Offline terminal reference for Unit 2, Unit 5, Django, Docker and Git"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -21,3 +21,4 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 thuk = ["data/*.txt", "data/*.pdf", "data/*.json"]
+
