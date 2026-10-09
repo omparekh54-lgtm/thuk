@@ -1,0 +1,65 @@
+Git Commands
+============
+Additional general reference (not extracted from the uploaded PDFs).
+Commands are examples to read and copy; Thuk never executes them.
+Replace placeholders such as <url>, <file>, and <branch> before running.
+
+SETUP
+ git --version                          Show installed Git version
+ git config --global user.name "Your Name"
+ git config --global user.email "you@example.com"
+
+START A REPOSITORY
+ git init                               Initialise in the current directory
+ git clone <url>                        Download a repository
+
+DAILY WORK
+ git status                             See changed and staged files
+ git diff                               Inspect unstaged changes
+ git diff --staged                      Inspect staged changes
+ git add <file>                         Stage one file
+ git add .                              Stage all changes in this directory
+ git commit -m "Describe your change"    Commit staged changes
+ git log --oneline --graph --all         Browse history
+ git show <commit>                      Inspect a commit
+
+BRANCHES
+ git branch                             List local branches
+ git switch -c <branch>                 Create and switch to a new branch
+ git switch <branch>                    Switch to an existing branch
+ git merge <branch>                     Merge a branch into the current one
+ git branch -d <branch>                 Delete a fully merged local branch
+
+REMOTES
+ git remote -v                          List remotes
+ git remote add origin <url>            Add a remote
+ git fetch origin                       Download remote history
+ git pull --ff-only                     Update only when a fast-forward is possible
+ git push -u origin <branch>            Push and set the upstream branch
+ git push                               Push to the configured upstream
+
+TEMPORARY WORK
+ git stash push -m "Work in progress"    Temporarily save tracked changes
+ git stash push -u                      Also include untracked files
+ git stash list                         List saved work
+ git stash apply                        Restore saved work while retaining the stash
+ git stash pop                          Restore and remove the stash if successful
+
+UNDO
+ git restore --staged <file>            Unstage; keep working file changes
+ git restore <file>                     DISCARD uncommitted changes to this file
+ git revert <commit>                    Make a new commit reversing an earlier commit
+ git reflog                             Find previous branch positions
+
+CONFLICTS
+ git status                             Find files needing resolution
+ Edit conflicting files, remove conflict markers, then:
+ git add <resolved-file>
+ git commit                             Finish a merge
+ git merge --abort                      Cancel an in-progress merge
+
+TAGS AND IGNORE RULES
+ git tag -a v1.0.0 -m "Release 1.0.0"   Create an annotated tag
+ git push origin v1.0.0                 Push that tag
+ Add generated files, virtual environments and secrets to .gitignore.
+ .gitignore does not stop tracking files already committed.

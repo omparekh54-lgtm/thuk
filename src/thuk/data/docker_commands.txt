@@ -1,0 +1,660 @@
+Unit 5 Coding Reference Manual
+
+Unit 5 Coding Reference Manual
+
+Docker, Docker Compose and containerising Django, the commands and
+files you will use in every lab and project
+
+This manual collects the Docker commands and files used in Unit 5 into one document. It uses the Unit
+2 Django project as the running example throughout: one Dockerfile and one compose file, built up
+section by section. Treat it as the one place to look things up while working. The ideas behind each
+command are in the Unit 5 Notes.
+
+NOT A REPLACEMENT FOR THE CODE FILES SHARED IN THE DEMO FOLDER OF EACH LAB
+
+Contents
+
+ 1. Setup
+ 2. Images
+
+ 3. Containers
+
+ 4. The Dockerfile
+ 5. Preparing Django for Docker
+
+ 6. Volumes and Networks
+
+ 7. Docker Compose
+ 8. Registries and Deployment
+
+ 9. Debugging and Clean Up
+
+Windows note: commands work in PowerShell or Git Bash. Where a command is split across lines with
+\ , use a backtick in PowerShell, or write it on one line.
+
+
+
+1. Setup
+
+Docker Desktop must be running (the whale icon in the system tray) before any command works.
+
+
+  Command                       Purpose
+
+                                Shows client and daemon versions; an error means Docker Desktop is
+   docker version
+                                not started
+
+  docker compose
+  version                       Confirms Compose is installed
+
+
+--- Page break ---
+
+  Command                     Purpose
+
+  docker run hello-
+  world                       Pulls and runs a test image, proving the installation works
+
+
+
+docker run hello-world
+docker ps -a           # the finished container, status Exited (0)
+docker images          # the image stays in the local cache
+
+
+2. Images
+
+  Command                                            Purpose
+
+  docker build -t name:tag .
+                                                     Builds an image from the Dockerfile in the
+                                                     current folder
+
+  docker build -f Dockerfile.prod -t
+  name:tag .
+                                                     Builds from a Dockerfile with a different name
+
+  docker images                                      Lists local images and their sizes
+
+  docker history name:tag                            Shows each layer and its size
+
+  docker pull postgres:16-alpine                     Downloads an image from a registry
+
+  docker tag name:tag user/name:tag                  Gives an image another name, before pushing
+
+  docker push user/name:tag                          Uploads an image to a registry
+
+  docker rmi name:tag                                Removes an image
+
+
+docker build -t imap-django:1.0 .
+docker history imap-django:1.0             # which layers are large?
+
+
+  Base image             Size         Use it for
+
+  python:3.12            1.62 GB      Only build stages that need compilers
+
+  python:3.12-slim       190 MB       The default for Python apps
+
+  alpine:3.20            12 MB        Tiny utilities; some Python packages will not install
+
+
+Always pin at least major.minor in a tag. Never rely on latest .
+
+
+
+3. Containers
+
+3.1 docker run options
+
+
+--- Page break ---
+
+  Option                         Purpose
+
+   -d                            Runs in the background
+
+   -p 8000:8000                  Publishes a port, HOST:CONTAINER
+
+   --name web                    A readable name instead of a random ID
+
+   -e KEY=value                  Sets an environment variable
+
+   --env-file .env               Loads environment variables from a file
+
+   -v name:/path                 Mounts a named volume
+
+   --network net                 Joins a user defined network
+
+   -it                           Interactive terminal, for shells
+
+   --rm                          Removes the container when it exits
+
+   --restart unless-stopped      Restarts after a crash or reboot
+
+
+Options go before the image name. Anything after it replaces the image's CMD.
+
+docker run -d -p 8080:80 --name web nginx:alpine                    # open http://localhost:8080
+docker run -it --rm python:3.12-slim bash                           # a throwaway shell
+
+3.2 Everyday commands
+
+
+  Command                                   Purpose
+
+   docker ps / docker ps -a                 Running containers / all, including exited
+
+   docker logs -f web                       Follows a container's output
+
+   docker exec -it web sh                   Opens a shell inside a running container
+
+   docker inspect web                       Ports, env vars, mounts, network, health
+
+   docker stats                             Live CPU and memory use
+
+   docker stop web / docker start web       Stop gracefully / start again
+
+   docker rm web / docker rm -f web         Remove a stopped / running container
+
+
+Exit codes in docker ps -a : 0 finished normally, 1 the app crashed, 127 command not found, 137
+killed, usually out of memory.
+
+
+
+4. The Dockerfile
+
+4.1 Instructions
+
+
+--- Page break ---
+
+ Instruction        Purpose
+
+  FROM              Base image; every Dockerfile starts here
+
+  WORKDIR           Sets and creates the working directory
+
+  COPY              Copies files from the project into the image
+
+  RUN               Runs a command at build time, saved as a layer
+
+  ENV               Environment variable, at build and run time
+
+  ARG               Variable available only during the build
+
+  EXPOSE            Documents the port; publishes nothing
+
+  USER              Runs everything after it as this user
+
+  CMD               Default command; replaced by arguments to docker run
+
+  ENTRYPOINT        Fixed program; CMD becomes its default arguments
+
+  HEALTHCHECK       Command Docker runs to check the app is healthy
+
+
+4.2 The Django Dockerfile
+
+# Dockerfile
+FROM python:3.12-slim                                              # 1
+
+
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1                   # 2
+
+
+WORKDIR /app                                                       # 3
+
+
+COPY requirements.txt .                                            # 4
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+COPY . .                                                           # 5
+RUN python manage.py collectstatic --noinput                       # 6
+
+
+RUN useradd --create-home --uid 10001 appuser \
+ && chown -R appuser /app                                          # 7
+USER appuser
+
+
+EXPOSE 8000                                                        # 8
+CMD ["gunicorn", "mysite.wsgi:application", "--bind", "0.0.0.0:8000", "--workers",
+"2"]
+
+
+ Line       Why
+
+ 1          A pinned, slim base image
+
+
+--- Page break ---
+
+  Line      Why
+
+  2         No .pyc files; logs appear immediately in docker logs
+
+  3         Every later path is relative to /app
+
+  4         Requirements first, so the slow install layer stays cached
+
+  5         Code last, since it changes most often
+
+  6         Gathers static files so the admin site is styled with DEBUG off
+
+  7         Runs the app as a non root user
+
+  8         gunicorn serves mysite/wsgi.py on 0.0.0.0 , reachable from outside the container
+
+
+4.3 .dockerignore
+
+.git
+venv/
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+staticfiles/
+Dockerfile*
+compose*.yaml
+
+Keeps the venv, Git history and passwords out of the image. Do not add *.pkl : the trained model must
+travel inside the image.
+
+
+4.4 Useful variations
+
+  Want                     Change
+
+  A health status          Add HEALTHCHECK CMD python -c "import urllib.request;
+  in docker ps             urllib.request.urlopen('http://localhost:8000/admin/login/')"
+
+  A fixed program
+                           ENTRYPOINT ["ping", "-c", "3"] plus CMD ["localhost"] ; docker run img
+  with changeable
+                           google.com replaces only CMD
+  arguments
+
+  Build tools kept
+                           Multi stage: FROM python:3.12 AS builder installs, then COPY --
+  out of the final
+                           from=builder into a slim final stage
+  image
+
+
+Never put secrets in ENV or ARG. docker inspect shows them to anyone who has the image.
+
+
+
+5. Preparing Django for Docker
+
+5.1 requirements.txt
+
+
+--- Page break ---
+
+Django==5.0.6
+djangorestframework==3.15.1
+psycopg2-binary==2.9.9
+gunicorn==23.0.0
+whitenoise==6.7.0
+scikit-learn==1.5.0
+joblib==1.4.2
+
+These versions are examples. Generate the real list from your working venv with pip freeze >
+requirements.txt , so scikit-learn matches the version that trained iris_model.pkl .
+
+
+5.2 settings.py changes
+
+# mysite/settings.py
+import os
+
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-not-secret")
+DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS",
+"localhost,127.0.0.1").split(",")
+
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",                 # add this line here
+    # ... the rest unchanged ...
+]
+
+
+DATABASES = {
+    "default": {
+         "ENGINE": "django.db.backends.postgresql",
+         "NAME": os.environ.get("POSTGRES_DB", "imapdb"),
+         "USER": os.environ.get("POSTGRES_USER", "postgres"),
+         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", ""),
+         "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
+         "PORT": "5432",
+    }
+}
+
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+The defaults keep python manage.py runserver on your laptop working exactly as in Unit 2. Inside
+Compose, .env and POSTGRES_HOST=db override them.
+
+
+
+6. Volumes and Networks
+
+
+--- Page break ---
+
+  Command                                 Purpose
+
+  docker volume create pgdata             Creates a named volume
+
+  docker volume ls / inspect pgdata       Lists volumes / shows where one lives
+
+  docker volume rm pgdata                 Deletes a volume and its data
+
+  docker network create imap-net          Creates a network with name based DNS
+
+  docker network inspect imap-net         Shows which containers are attached
+
+
+Running the Django stack by hand shows what Compose automates in section 7:
+
+docker network create imap-net
+docker volume create pgdata
+
+
+docker run -d --name db --network imap-net \
+    -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=imapdb \
+    -v pgdata:/var/lib/postgresql/data postgres:16-alpine
+
+
+docker run -d --name web --network imap-net -p 8000:8000 \
+    -e POSTGRES_HOST=db -e POSTGRES_PASSWORD=secret \
+    imap-django:1.0
+
+
+  From                                     Reach PostgreSQL at
+
+  Your laptop, port published               localhost:5432
+
+  Another container on the same network     db:5432
+
+  A container, reaching your laptop         host.docker.internal:5432
+
+
+
+7. Docker Compose
+
+7.1 .env
+
+# .env     (never committed; commit a .env.example with placeholders)
+DJANGO_SECRET_KEY=replace-with-a-long-random-string
+DJANGO_DEBUG=0
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=change-me-please
+POSTGRES_DB=imapdb
+
+7.2 compose.yaml
+
+
+--- Page break ---
+
+services:
+  web:
+    build: .
+    image: imap-django:1.0
+    command: sh -c "python manage.py migrate && gunicorn mysite.wsgi:application --
+bind 0.0.0.0:8000 --workers 2"
+    ports:
+        - "8000:8000"
+    env_file: .env
+    environment:
+        POSTGRES_HOST: db
+    depends_on:
+        db:
+           condition: service_healthy
+    restart: unless-stopped
+
+
+  db:
+    image: postgres:16-alpine
+    environment:
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+        - pgdata:/var/lib/postgresql/data
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+        interval: 5s
+        retries: 10
+
+
+volumes:
+  pgdata:
+
+
+ Key                             Purpose
+
+  build / image                  Build from the Dockerfile, and name the result
+
+  command                        Runs migrations, then gunicorn, every time web starts
+
+  ports                           "HOST:CONTAINER" , always quoted
+
+  env_file / environment         Variables from .env / set inline
+
+  POSTGRES_HOST: db              The service name, never localhost
+
+  depends_on: service_healthy    Web waits until PostgreSQL is actually ready
+
+  volumes                        Database files live in the named volume pgdata
+
+
+--- Page break ---
+
+  Key                                  Purpose
+
+   $${...}                             Escapes $ so Compose leaves it for the container's shell
+
+
+The database publishes no port, so only the web container can reach it, and it will not clash with an
+imap-postgres container from Unit 2.
+
+
+7.3 Commands
+
+
+  Command                                                         Purpose
+
+   docker compose up -d --build
+                                                                  Builds and starts everything in the
+                                                                  background
+
+   docker compose ps                                              Status of each service
+
+   docker compose logs -f web                                     Follows the web service's logs
+
+  docker compose exec web python manage.py                        Creates an admin account inside the
+  createsuperuser                                                 container
+
+  docker compose exec web python manage.py
+  drf_create_token <user>
+                                                                  Creates an API token
+
+   docker compose exec db psql -U postgres -d imapdb              SQL prompt inside the database
+
+   docker compose config
+                                                                  Prints the final YAML with .env filled
+                                                                  in
+
+   docker compose down
+                                                                  Stops everything, keeps the
+                                                                  database
+
+   docker compose down -v
+                                                                  Also deletes the volume and all
+                                                                  data
+
+
+cp .env.example .env                       # PowerShell: copy .env.example .env
+docker compose up -d --build
+docker compose exec web python manage.py createsuperuser
+# open http://localhost:8000/admin/
+
+
+curl -X POST http://localhost:8000/api/predict/ \
+      -H "Authorization: Token <your-token>" \
+      -H "Content-Type: application/json" \
+      -d '{"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4,
+"petal_width": 0.2}'
+# {"prediction": 0}
+
+After changing code, docker compose up -d --build rebuilds and restarts only what changed. After
+changing a model, run makemigrations on your laptop as in Unit 2, then rebuild; the container applies
+the migration on start.
+
+
+--- Page break ---
+
+8. Registries and Deployment
+
+8.1 Push and pull
+
+# on your laptop
+docker login
+docker tag imap-django:1.0 <your-hub-user>/imap-django:1.0
+docker push <your-hub-user>/imap-django:1.0
+
+
+# on the server: copy compose.yaml and .env, change build: . to
+#     image: <your-hub-user>/imap-django:1.0
+docker compose up -d
+
+
+    Tag              Use it for
+
+    1.0 , 1.4.2      Releases; never reuse a version tag
+
+    sha-3f2a9c1      Tracing an image to its exact commit
+
+    latest           Convenience only, never production
+
+
+Built on an Apple M series Mac and deploying to an Intel or AMD server? Build for both:
+
+docker buildx build --platform linux/amd64,linux/arm64 \
+      -t <your-hub-user>/imap-django:1.0 --push .
+
+8.2 CI/CD with GitHub Actions
+
+# .github/workflows/docker-publish.yml
+name: docker-publish
+on:
+    push:
+      branches: [main]
+
+
+jobs:
+    docker:
+      runs-on: ubuntu-latest
+      permissions:
+          contents: read
+          packages: write
+      steps:
+          - uses: actions/checkout@v4
+          - uses: docker/setup-buildx-action@v3
+          - uses: docker/login-action@v3
+             with:
+               registry: ghcr.io
+
+
+--- Page break ---
+
+             username: ${{ github.actor }}
+             password: ${{ secrets.GITHUB_TOKEN }}
+         - uses: docker/build-push-action@v6
+           with:
+             context: .
+             push: true
+             tags: ghcr.io/${{ github.repository }}:latest
+
+Every push to main builds the image and pushes it to ghcr.io/<you>/<repo> . GitHub supplies the
+token automatically. Repository names must be lowercase.
+
+
+
+9. Debugging and Clean Up
+
+  Step      Command                                 Look for
+
+  1          docker compose ps or docker ps -a      Running, exited, restarting; the exit code
+
+  2          docker compose logs web                The actual error
+
+  3          docker inspect <c>                     Ports, env vars, mounts, network
+
+  4          docker compose exec web sh             Look around from inside
+
+  5          docker compose config                  Variables filled in correctly?
+
+
+  Error                                      Fix
+
+  port is already allocated
+                                             Change the host port ( "8001:8000" ) or stop the other
+                                             container
+
+  connection refused / could not             Use db , not localhost; check POSTGRES_HOST and that
+  translate host name "db"                   both services are in the same compose file
+
+  DisallowedHost                             Add the host to DJANGO_ALLOWED_HOSTS
+
+                                             WhiteNoise missing from MIDDLEWARE , or
+  Admin page has no styling
+                                             collectstatic did not run
+
+  Database is uninitialized and
+  superuser password is not specified
+                                             Set POSTGRES_PASSWORD in .env
+
+  exec format error                          Rebuild with docker buildx build --platform ...
+
+  Exited (137)                               Out of memory
+
+  App unreachable but container running      App bound to 127.0.0.1 ; bind to 0.0.0.0
+
+
+  Command                              Removes
+
+  docker system df                     Nothing; shows disk use
+
+  docker system prune
+                                       Stopped containers, unused networks, dangling images,
+                                       build cache
+
+
+--- Page break ---
+
+  Command                               Removes
+
+  docker system prune -a --
+  volumes                               Everything unused, including images and volumes
+
+
+Quick tips: pin a slim base, never latest . Requirements before code. Bind to 0.0.0.0 . Secrets in
+.env , never in the image. Service names, not localhost. Think twice before down -v .
+
+
+--- Page break ---
+

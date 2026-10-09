@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "thuk"
+version = "1.0.0"
+description = "Offline terminal reference for Unit 2, Unit 5, Django, Docker and Git"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent", "Topic :: Education"]
+
+[project.urls]
+Repository = "https://github.com/omparekh54-lgtm/thuk"
+
+[project.scripts]
+thuk = "thuk.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+thuk = ["data/*.txt", "data/*.pdf", "data/*.json"]
