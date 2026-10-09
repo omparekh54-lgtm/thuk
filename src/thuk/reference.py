@@ -60,7 +60,7 @@ def open_pdf(section):
 
 
 def list_topics(section):
-    """Return the curated contents of a document, including subsections."""
+    """Return the curated contents of a document, listing main chapters only."""
     import json
     resource(section)  # validate the document
     index = json.loads(files("thuk").joinpath("data", "contents.json").read_text(encoding="utf-8"))
@@ -77,7 +77,7 @@ def get_topic(section, topic):
 
 
 def search_topics(query, section):
-    """Group case-insensitive literal matches by their most specific topic."""
+    """Group case-insensitive literal matches by their main chapter."""
     if not query.strip():
         raise ValueError("Enter a non-empty search query.")
     topics = list_topics(section)

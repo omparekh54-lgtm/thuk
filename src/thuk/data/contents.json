@@ -19,82 +19,10 @@
       "level": 1
     },
     {
-      "title": "2.1 *args and **kwargs",
-      "start": 36,
-      "end": 71,
-      "level": 2
-    },
-    {
-      "title": "2.2 Exception handling flow",
-      "start": 71,
-      "end": 109,
-      "level": 2
-    },
-    {
-      "title": "2.3 Classes: a blueprint and its instances",
-      "start": 109,
-      "end": 135,
-      "level": 2
-    },
-    {
-      "title": "2.4 Inheritance",
-      "start": 135,
-      "end": 170,
-      "level": 2
-    },
-    {
-      "title": "2.5 Magic (dunder) methods",
-      "start": 170,
-      "end": 200,
-      "level": 2
-    },
-    {
-      "title": "2.6 The four pillars of OOP",
-      "start": 200,
-      "end": 246,
-      "level": 2
-    },
-    {
       "title": "3. Networking and Files",
       "start": 246,
       "end": 423,
       "level": 1
-    },
-    {
-      "title": "3.1 Recap: client, server, and what a socket needs",
-      "start": 248,
-      "end": 264,
-      "level": 2
-    },
-    {
-      "title": "3.2 Opening a socket in Python",
-      "start": 264,
-      "end": 293,
-      "level": 2
-    },
-    {
-      "title": "3.3 HTTP methods, at a glance",
-      "start": 293,
-      "end": 329,
-      "level": 2
-    },
-    {
-      "title": "3.4 Reading and writing files",
-      "start": 329,
-      "end": 360,
-      "level": 2
-    },
-    {
-      "title": "3.5 The server side of a socket",
-      "start": 360,
-      "end": 392,
-      "level": 2
-    },
-    {
-      "title": "3.6 JSON files",
-      "start": 392,
-      "end": 423,
-      "level": 2
     },
     {
       "title": "4. Django MVT",
@@ -103,70 +31,10 @@
       "level": 1
     },
     {
-      "title": "4.1 The Model, View, Template cycle",
-      "start": 425,
-      "end": 452,
-      "level": 2
-    },
-    {
-      "title": "4.2 Project vs app",
-      "start": 452,
-      "end": 479,
-      "level": 2
-    },
-    {
-      "title": "4.3 Anatomy of one request",
-      "start": 479,
-      "end": 495,
-      "level": 2
-    },
-    {
-      "title": "4.4 From a model to a database table",
-      "start": 495,
-      "end": 526,
-      "level": 2
-    },
-    {
-      "title": "4.5 Templating basics",
-      "start": 526,
-      "end": 557,
-      "level": 2
-    },
-    {
-      "title": "4.6 Model fields and relationships",
-      "start": 557,
-      "end": 621,
-      "level": 2
-    },
-    {
-      "title": "4.7 Writing a view and wiring its URL",
-      "start": 621,
-      "end": 685,
-      "level": 2
-    },
-    {
       "title": "5. Auth and Sessions",
       "start": 685,
       "end": 773,
       "level": 1
-    },
-    {
-      "title": "5.1 django.contrib.auth , out of the box",
-      "start": 687,
-      "end": 712,
-      "level": 2
-    },
-    {
-      "title": "5.2 Permissions and decorators",
-      "start": 712,
-      "end": 750,
-      "level": 2
-    },
-    {
-      "title": "5.3 What a session actually is",
-      "start": 750,
-      "end": 773,
-      "level": 2
     },
     {
       "title": "6. Database Connectivity",
@@ -175,94 +43,16 @@
       "level": 1
     },
     {
-      "title": "6.1 SQLite vs PostgreSQL",
-      "start": 781,
-      "end": 810,
-      "level": 2
-    },
-    {
-      "title": "6.2 Pointing Django at PostgreSQL",
-      "start": 810,
-      "end": 835,
-      "level": 2
-    },
-    {
-      "title": "6.3 Querying through the ORM",
-      "start": 835,
-      "end": 858,
-      "level": 2
-    },
-    {
-      "title": "6.4 Raw SQL, and why placeholders matter",
-      "start": 858,
-      "end": 880,
-      "level": 2
-    },
-    {
       "title": "7. APIs with Django REST Framework",
       "start": 880,
       "end": 1011,
       "level": 1
     },
     {
-      "title": "7.1 From HTML views to a JSON API",
-      "start": 887,
-      "end": 905,
-      "level": 2
-    },
-    {
-      "title": "7.2 Serializers",
-      "start": 905,
-      "end": 928,
-      "level": 2
-    },
-    {
-      "title": "7.3 ViewSets and routers",
-      "start": 928,
-      "end": 955,
-      "level": 2
-    },
-    {
-      "title": "7.4 Token authentication",
-      "start": 955,
-      "end": 987,
-      "level": 2
-    },
-    {
-      "title": "7.5 Permissions",
-      "start": 987,
-      "end": 1011,
-      "level": 2
-    },
-    {
       "title": "8. Machine Learning Model Integration",
       "start": 1011,
       "end": 1120,
       "level": 1
-    },
-    {
-      "title": "8.1 Train once, save to disk",
-      "start": 1019,
-      "end": 1042,
-      "level": 2
-    },
-    {
-      "title": "8.2 Load once, not per request",
-      "start": 1042,
-      "end": 1058,
-      "level": 2
-    },
-    {
-      "title": "8.3 The prediction endpoint",
-      "start": 1058,
-      "end": 1108,
-      "level": 2
-    },
-    {
-      "title": "8.4 Calling it from a browser page",
-      "start": 1108,
-      "end": 1120,
-      "level": 2
     },
     {
       "title": "9. Quick Recap",
@@ -291,18 +81,6 @@
       "level": 1
     },
     {
-      "title": "2.1 \"But it works on my machine\"",
-      "start": 42,
-      "end": 76,
-      "level": 2
-    },
-    {
-      "title": "2.2 What Docker is",
-      "start": 76,
-      "end": 120,
-      "level": 2
-    },
-    {
       "title": "3. Containers vs Virtual Machines",
       "start": 120,
       "end": 161,
@@ -315,82 +93,16 @@
       "level": 1
     },
     {
-      "title": "4.1 What happens when you type docker run",
-      "start": 195,
-      "end": 211,
-      "level": 2
-    },
-    {
       "title": "5. Images and the Dockerfile",
       "start": 211,
       "end": 308,
       "level": 1
     },
     {
-      "title": "5.1 Images are layers",
-      "start": 213,
-      "end": 227,
-      "level": 2
-    },
-    {
-      "title": "5.2 Names, tags and \"latest\"",
-      "start": 227,
-      "end": 252,
-      "level": 2
-    },
-    {
-      "title": "5.3 Choosing a base image",
-      "start": 252,
-      "end": 270,
-      "level": 2
-    },
-    {
-      "title": "5.4 The Dockerfile",
-      "start": 270,
-      "end": 308,
-      "level": 2
-    },
-    {
       "title": "6. Containers, Storage and Networking",
       "start": 308,
       "end": 422,
       "level": 1
-    },
-    {
-      "title": "6.1 Containers are disposable",
-      "start": 310,
-      "end": 323,
-      "level": 2
-    },
-    {
-      "title": "6.2 Reading a docker run command",
-      "start": 323,
-      "end": 347,
-      "level": 2
-    },
-    {
-      "title": "6.3 Storage",
-      "start": 347,
-      "end": 373,
-      "level": 2
-    },
-    {
-      "title": "6.4 Ports",
-      "start": 373,
-      "end": 387,
-      "level": 2
-    },
-    {
-      "title": "6.5 Containers find each other by name",
-      "start": 387,
-      "end": 414,
-      "level": 2
-    },
-    {
-      "title": "6.6 One image, many configurations",
-      "start": 414,
-      "end": 422,
-      "level": 2
     },
     {
       "title": "7. Docker Compose",
@@ -411,46 +123,10 @@
       "level": 1
     },
     {
-      "title": "9.1 The image is the deliverable",
-      "start": 502,
-      "end": 539,
-      "level": 2
-    },
-    {
-      "title": "9.2 CI/CD",
-      "start": 539,
-      "end": 556,
-      "level": 2
-    },
-    {
-      "title": "9.3 A production stack",
-      "start": 556,
-      "end": 569,
-      "level": 2
-    },
-    {
-      "title": "9.4 Security",
-      "start": 569,
-      "end": 595,
-      "level": 2
-    },
-    {
       "title": "10. Best Practice and Debugging",
       "start": 595,
       "end": 661,
       "level": 1
-    },
-    {
-      "title": "10.1 Rules worth memorising",
-      "start": 597,
-      "end": 619,
-      "level": 2
-    },
-    {
-      "title": "10.2 The debugging playbook",
-      "start": 619,
-      "end": 661,
-      "level": 2
     },
     {
       "title": "11. Quick Recap",
@@ -473,58 +149,10 @@
       "level": 1
     },
     {
-      "title": "1.1 *args and **kwargs",
-      "start": 9,
-      "end": 19,
-      "level": 2
-    },
-    {
-      "title": "1.2 Exception Handling",
-      "start": 19,
-      "end": 37,
-      "level": 2
-    },
-    {
-      "title": "1.3 Classes, Inheritance and Dunder Methods",
-      "start": 37,
-      "end": 104,
-      "level": 2
-    },
-    {
-      "title": "1.4 The Four Pillars in Code",
-      "start": 104,
-      "end": 127,
-      "level": 2
-    },
-    {
       "title": "2. Networking and Files",
       "start": 127,
       "end": 237,
       "level": 1
-    },
-    {
-      "title": "2.1 Socket Client",
-      "start": 129,
-      "end": 146,
-      "level": 2
-    },
-    {
-      "title": "2.2 Socket Server (Echo)",
-      "start": 146,
-      "end": 172,
-      "level": 2
-    },
-    {
-      "title": "2.3 Files and JSON",
-      "start": 172,
-      "end": 215,
-      "level": 2
-    },
-    {
-      "title": "2.4 HTTP Request Format",
-      "start": 215,
-      "end": 237,
-      "level": 2
     },
     {
       "title": "3. Django Project Setup",
@@ -533,52 +161,10 @@
       "level": 1
     },
     {
-      "title": "3.1 Setup Commands",
-      "start": 239,
-      "end": 252,
-      "level": 2
-    },
-    {
-      "title": "3.2 settings.py",
-      "start": 252,
-      "end": 264,
-      "level": 2
-    },
-    {
       "title": "4. Django MVT",
       "start": 264,
       "end": 414,
       "level": 1
-    },
-    {
-      "title": "4.1 models.py",
-      "start": 266,
-      "end": 289,
-      "level": 2
-    },
-    {
-      "title": "4.2 Migrations",
-      "start": 289,
-      "end": 294,
-      "level": 2
-    },
-    {
-      "title": "4.3 views.py",
-      "start": 294,
-      "end": 322,
-      "level": 2
-    },
-    {
-      "title": "4.4 urls.py (app and project)",
-      "start": 322,
-      "end": 351,
-      "level": 2
-    },
-    {
-      "title": "4.5 Templates",
-      "start": 351,
-      "end": 414,
-      "level": 2
     },
     {
       "title": "5. Auth and Sessions",
@@ -587,58 +173,10 @@
       "level": 1
     },
     {
-      "title": "5.1 accounts/views.py: Login, Logout, Register, Decorators, Sessions",
-      "start": 416,
-      "end": 468,
-      "level": 2
-    },
-    {
-      "title": "5.2 accounts/urls.py",
-      "start": 468,
-      "end": 483,
-      "level": 2
-    },
-    {
-      "title": "5.3 Templates: CSRF and Login Checks",
-      "start": 483,
-      "end": 503,
-      "level": 2
-    },
-    {
-      "title": "5.4 Permission Checks and Groups",
-      "start": 503,
-      "end": 516,
-      "level": 2
-    },
-    {
       "title": "6. Database Connectivity",
       "start": 516,
       "end": 589,
       "level": 1
-    },
-    {
-      "title": "6.1 PostgreSQL in Docker",
-      "start": 518,
-      "end": 525,
-      "level": 2
-    },
-    {
-      "title": "6.2 DATABASES Setting",
-      "start": 525,
-      "end": 541,
-      "level": 2
-    },
-    {
-      "title": "6.3 ORM Queries",
-      "start": 541,
-      "end": 579,
-      "level": 2
-    },
-    {
-      "title": "6.4 Raw SQL",
-      "start": 579,
-      "end": 589,
-      "level": 2
     },
     {
       "title": "7. Django REST Framework",
@@ -647,82 +185,10 @@
       "level": 1
     },
     {
-      "title": "7.1 Install",
-      "start": 591,
-      "end": 595,
-      "level": 2
-    },
-    {
-      "title": "7.2 settings.py",
-      "start": 595,
-      "end": 609,
-      "level": 2
-    },
-    {
-      "title": "7.3 Serializer and ViewSet",
-      "start": 609,
-      "end": 634,
-      "level": 2
-    },
-    {
-      "title": "7.4 Router and URLs",
-      "start": 634,
-      "end": 648,
-      "level": 2
-    },
-    {
-      "title": "7.5 Token and Testing",
-      "start": 648,
-      "end": 674,
-      "level": 2
-    },
-    {
-      "title": "7.6 Permission Classes",
-      "start": 674,
-      "end": 687,
-      "level": 2
-    },
-    {
       "title": "8. Machine Learning Model Integration",
       "start": 687,
       "end": 782,
       "level": 1
-    },
-    {
-      "title": "8.1 Install and Create the App",
-      "start": 689,
-      "end": 695,
-      "level": 2
-    },
-    {
-      "title": "8.2 Train and Save the Model",
-      "start": 695,
-      "end": 707,
-      "level": 2
-    },
-    {
-      "title": "8.3 Load the Model Once",
-      "start": 707,
-      "end": 720,
-      "level": 2
-    },
-    {
-      "title": "8.4 Serializer, View and URLs",
-      "start": 720,
-      "end": 756,
-      "level": 2
-    },
-    {
-      "title": "8.5 Test With curl",
-      "start": 756,
-      "end": 766,
-      "level": 2
-    },
-    {
-      "title": "8.6 Call It From a Browser Page",
-      "start": 766,
-      "end": 782,
-      "level": 2
     },
     {
       "title": "9. Common Errors and Fixes",
@@ -763,64 +229,16 @@
       "level": 1
     },
     {
-      "title": "3.1 docker run options",
-      "start": 109,
-      "end": 142,
-      "level": 2
-    },
-    {
-      "title": "3.2 Everyday commands",
-      "start": 142,
-      "end": 167,
-      "level": 2
-    },
-    {
       "title": "4. The Dockerfile",
       "start": 167,
       "end": 293,
       "level": 1
     },
     {
-      "title": "4.1 Instructions",
-      "start": 169,
-      "end": 199,
-      "level": 2
-    },
-    {
-      "title": "4.2 The Django Dockerfile",
-      "start": 199,
-      "end": 253,
-      "level": 2
-    },
-    {
-      "title": "4.3 .dockerignore",
-      "start": 253,
-      "end": 269,
-      "level": 2
-    },
-    {
-      "title": "4.4 Useful variations",
-      "start": 269,
-      "end": 293,
-      "level": 2
-    },
-    {
       "title": "5. Preparing Django for Docker",
       "start": 293,
       "end": 350,
       "level": 1
-    },
-    {
-      "title": "5.1 requirements.txt",
-      "start": 295,
-      "end": 312,
-      "level": 2
-    },
-    {
-      "title": "5.2 settings.py changes",
-      "start": 312,
-      "end": 350,
-      "level": 2
     },
     {
       "title": "6. Volumes and Networks",
@@ -835,40 +253,10 @@
       "level": 1
     },
     {
-      "title": "7.1 .env",
-      "start": 396,
-      "end": 406,
-      "level": 2
-    },
-    {
-      "title": "7.2 compose.yaml",
-      "start": 406,
-      "end": 474,
-      "level": 2
-    },
-    {
-      "title": "7.3 Commands",
-      "start": 474,
-      "end": 529,
-      "level": 2
-    },
-    {
       "title": "8. Registries and Deployment",
       "start": 529,
       "end": 596,
       "level": 1
-    },
-    {
-      "title": "8.1 Push and pull",
-      "start": 531,
-      "end": 558,
-      "level": 2
-    },
-    {
-      "title": "8.2 CI/CD with GitHub Actions",
-      "start": 558,
-      "end": 596,
-      "level": 2
     },
     {
       "title": "9. Debugging and Clean Up",

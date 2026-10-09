@@ -21,6 +21,8 @@ class ThukTests(unittest.TestCase):
             topics = list_topics(document)
             lines = get_text(document).splitlines(keepends=True)
             self.assertGreater(len(topics), 5)
+            self.assertTrue(all(t['level'] == 1 for t in topics))
+            self.assertFalse(any(__import__('re').match(r'^\d+\.\d+', t['title']) for t in topics))
             major = [item for item in topics if item['level'] == 1]
             # Chapters partition every line, including introduction and last page.
             self.assertEqual(''.join(''.join(lines[t['start']:t['end']]) for t in major), get_text(document))
@@ -54,10 +56,10 @@ class ThukTests(unittest.TestCase):
         self.assertEqual(text.count('Django Code - Contents'), 2)
         self.assertEqual(text.count('\nTHUK\n'), 2)
 
-    def test_search_scope_and_specific_subsection(self):
+    def test_search_scope_and_main_chapter(self):
         results = search_topics('makemigrations', 3)
         self.assertTrue(results)
-        self.assertTrue(any(r['title'] == '4.2 Migrations' for r in results))
+        self.assertTrue(any(r['title'] == '4. Django MVT' for r in results))
         self.assertEqual(results, search_topics('MAKEMIGRATIONS', 3))
         for result in results:
             self.assertIn('makemigrations', get_topic(3, result['topic']).lower())

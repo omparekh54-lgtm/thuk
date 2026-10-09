@@ -38,7 +38,7 @@ THUK
 0. Exit
 ```
 
-Choose a document to see its contents, with numbered chapters and subsections. Choose a topic to read only that topic. Chapters include their subsections; choosing a subsection reads just that subsection.
+Choose a document to see its contents, with main numbered chapters only. Choose a chapter to read it, including all of its subsections. Subsections such as 2.1 and 2.2 are not separate menu options.
 
 After reading, you stay in the same document's contents menu. In an interactive pager, press `q` to finish reading. Choose `0. Back to documents` to return to the five-document menu; `0. Exit` there closes Thuk. Ctrl+C or end-of-input exits cleanly.
 
@@ -50,7 +50,7 @@ Choose `S. Search this document`, then type a keyword or phrase such as `migrati
 
 Thuk lists matching sections with match counts and preview lines. Choose a result to open its section. Every matching keyword in that section is highlighted as `[[keyword]]`, which is readable on Windows, Linux and macOS. After reading a search result you return to that document's contents. `0` at search results returns without opening a result; a blank query cancels search.
 
-Search maps each hit to the most specific subsection, so parent chapters don't duplicate subsection results. Contents-page hits appear under Document introduction.
+Search maps each hit to its main chapter and opens that chapter with matching keywords highlighted. Contents-page hits appear under Document introduction.
 
 ## Other commands
 
