@@ -38,6 +38,7 @@ THUK
 5. Git Commands
 6. Docker CLI Cheat Sheet
 7. Answer a question
+F. Theory (full Unit 2 + Unit 5)
 0. Exit
 ```
 
@@ -46,6 +47,14 @@ Choose a document to see its contents, with main numbered chapters only. Choose 
 After reading, you stay in the same document's contents menu. In an interactive pager, press `q` to finish reading. Choose `0. Back to documents` to return to the six-document menu; `0. Exit` there closes Thuk. Ctrl+C or end-of-input exits cleanly.
 
 A `Document introduction` entry preserves each document's preface and original contents page. PDF extraction can change table spacing; open the original PDF to see diagrams and exact formatting.
+
+## Full theory in one view
+
+Choose `F. Theory (full Unit 2 + Unit 5)` from the main menu. Both `f` and `F`
+work. Thuk opens the entire Unit 2 Theory followed by the entire Unit 5 Theory
+in one continuous reading view, with every chapter and subsection included.
+Finish reading (press `q` in an interactive pager) to return to the main menu.
+With `--plain`, both documents print directly in the terminal.
 
 ## Search within a document
 

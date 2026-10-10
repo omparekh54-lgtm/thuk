@@ -31,6 +31,18 @@ def display(section, topic=None, plain=False, keyword=None):
         pydoc.pager(text)
 
 
+def display_theory(plain=False):
+    """Show both complete theory documents in one continuous reading view."""
+    parts = ['THEORY - Full Unit 2 and Unit 5']
+    for section in (1, 2):
+        parts.append(SECTIONS[section][0] + '\n' + '=' * 60 + '\n\n' + get_text(section))
+    text = '\n\n'.join(parts)
+    if plain or not sys.stdout.isatty():
+        print(text)
+    else:
+        pydoc.pager(text)
+
+
 def ask(prompt):
     return input(prompt).strip()
 
@@ -109,15 +121,19 @@ def menu(plain=False, pdf=False):
             print(f'{number}. {title}')
         answer_option = max(SECTIONS) + 1
         print(f'{answer_option}. Answer a question')
+        print('F. Theory (full Unit 2 + Unit 5)')
         print('0. Exit\n' + '=' * 42)
-        choice = ask(f'Select an option (1-{answer_option}): ').lower()
+        choice = ask(f'Select an option (1-{answer_option}, F): ').lower()
         if choice == '0':
             return 0
+        if choice == 'f':
+            display_theory(plain)
+            continue
         if choice in (str(answer_option), 'a'):
             answer_menu(plain=plain)
             continue
         if choice not in {str(n) for n in SECTIONS}:
-            print(f'Choose an option from 1 to {answer_option}, or 0 to exit.')
+            print(f'Choose an option from 1 to {answer_option}, F for theory, or 0 to exit.')
             continue
         if pdf:
             try:
