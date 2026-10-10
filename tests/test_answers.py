@@ -33,7 +33,7 @@ class AnswerTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 answer_question(question)
         with self.assertRaises(ValueError):
-            answer_question('Docker', 6)
+            answer_question('Docker', 99)
         with self.assertRaises(ValueError):
             answer_question('Docker', limit=0)
 
@@ -45,7 +45,7 @@ class AnswerTests(unittest.TestCase):
         return code, output.getvalue()
 
     def test_questions_repeat_and_return_to_original_menu(self):
-        code, text = self.run_cli(['--plain'], ['6', 'Explain Docker', 'git stash command', '0', '0'])
+        code, text = self.run_cli(['--plain'], ['7', 'Explain Docker', 'git stash command', '0', '0'])
         self.assertEqual(code, 0)
         self.assertEqual(text.count('\nTHUK\n'), 2)
         self.assertEqual(text.count('Relevant passages from your notes'), 2)
@@ -62,7 +62,7 @@ class AnswerTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             self.run_cli(['1', '--topic', '2', '--ask', 'Docker'])
         for exception in (EOFError, KeyboardInterrupt):
-            with patch('builtins.input', side_effect=['6', exception]), contextlib.redirect_stdout(io.StringIO()):
+            with patch('builtins.input', side_effect=['7', exception]), contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(main(['--plain']), 0)
 
 

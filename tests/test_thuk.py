@@ -17,7 +17,7 @@ class ThukTests(unittest.TestCase):
         return code, output.getvalue()
 
     def test_all_documents_indexed_and_full_text_preserved(self):
-        for document in range(1, 6):
+        for document in range(1, 7):
             topics = list_topics(document)
             lines = get_text(document).splitlines(keepends=True)
             self.assertGreater(len(topics), 5)
@@ -93,7 +93,7 @@ class ThukTests(unittest.TestCase):
 
     def test_original_pdf_exports_exactly(self):
         with tempfile.TemporaryDirectory() as folder:
-            for document in range(1, 5):
+            for document in [1, 2, 3, 4, 6]:
                 path = export_pdf(document, Path(folder) / f'{document}.pdf')
                 self.assertEqual(path.read_bytes(), resource(document, 'pdf').read_bytes())
         self.assertEqual(self.run_cli(['5', '--pdf'])[0], 1)

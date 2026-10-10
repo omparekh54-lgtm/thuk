@@ -107,16 +107,17 @@ def menu(plain=False, pdf=False):
         print('\nTHUK\n' + '=' * 42)
         for number, (title, _) in SECTIONS.items():
             print(f'{number}. {title}')
-        print('6. Answer a question')
+        answer_option = max(SECTIONS) + 1
+        print(f'{answer_option}. Answer a question')
         print('0. Exit\n' + '=' * 42)
-        choice = ask('Select an option (1-6): ').lower()
+        choice = ask(f'Select an option (1-{answer_option}): ').lower()
         if choice == '0':
             return 0
-        if choice in ('6', 'a'):
+        if choice in (str(answer_option), 'a'):
             answer_menu(plain=plain)
             continue
         if choice not in {str(n) for n in SECTIONS}:
-            print('Choose an option from 1 to 6, or 0 to exit.')
+            print(f'Choose an option from 1 to {answer_option}, or 0 to exit.')
             continue
         if pdf:
             try:
@@ -129,7 +130,7 @@ def menu(plain=False, pdf=False):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description='Thuk offline document browser')
-    parser.add_argument('section', nargs='?', type=int, choices=SECTIONS, help='document number (1-5)')
+    parser.add_argument('section', nargs='?', type=int, choices=SECTIONS, help=f'document number (1-{max(SECTIONS)})')
     parser.add_argument('--topic', type=int, help='read one topic by its contents-menu number')
     parser.add_argument('--version', action='version', version=f'Thuk {__version__}')
     group = parser.add_mutually_exclusive_group()

@@ -1,14 +1,15 @@
 # Thuk
 
-An offline Python study library with a nested terminal browser for five documents:
+An offline Python study library with a nested terminal browser for six documents:
 
 1. Unit 2 Theory
 2. Unit 5 Theory
 3. Django Code (complete Unit 2 coding reference)
 4. Docker Commands (complete Unit 5 coding reference)
 5. Git Commands (supplementary cheat sheet)
+6. Docker CLI Cheat Sheet (uploaded Docker PDF)
 
-The full supplied text and all four original PDFs are bundled. No runtime dependencies, API keys or internet access are needed after installation. Code and commands in references are displayed for reading, never executed.
+The full supplied text and all five original PDFs are bundled. No runtime dependencies, API keys or internet access are needed after installation. Code and commands in references are displayed for reading, never executed.
 
 ## Install and run
 
@@ -35,13 +36,14 @@ THUK
 3. Django Code
 4. Docker Commands
 5. Git Commands
-6. Answer a question
+6. Docker CLI Cheat Sheet
+7. Answer a question
 0. Exit
 ```
 
 Choose a document to see its contents, with main numbered chapters only. Choose a chapter to read it, including all of its subsections. Subsections such as 2.1 and 2.2 are not separate menu options.
 
-After reading, you stay in the same document's contents menu. In an interactive pager, press `q` to finish reading. Choose `0. Back to documents` to return to the five-document menu; `0. Exit` there closes Thuk. Ctrl+C or end-of-input exits cleanly.
+After reading, you stay in the same document's contents menu. In an interactive pager, press `q` to finish reading. Choose `0. Back to documents` to return to the six-document menu; `0. Exit` there closes Thuk. Ctrl+C or end-of-input exits cleanly.
 
 A `Document introduction` entry preserves each document's preface and original contents page. PDF extraction can change table spacing; open the original PDF to see diagrams and exact formatting.
 
@@ -55,7 +57,7 @@ Search maps each hit to its main chapter and opens that chapter with matching ke
 
 ## Answer a question (offline)
 
-Choose `6. Answer a question` in the main menu to ask across all five documents.
+Choose `7. Answer a question` in the main menu to ask across all six documents.
 Inside a document, choose `A. Answer a question from this document` to restrict
 answers to that document. Type a question, for example `What is the difference
 between containers and virtual machines?` or `Explain MVT`.
@@ -95,7 +97,7 @@ thuk 1 --pdf                      # Open the original PDF in your desktop viewer
 thuk 4 --export-pdf docker.pdf    # Save the original PDF
 ```
 
-Use `python -m thuk` instead of `thuk` if the executable isn't on PATH. In piped/noninteractive CLI search, results are printed with topic numbers; open one using `--topic NUMBER`. PDF export replaces the destination file if it exists. Git is a text-only reference and has no source PDF.
+Use `python -m thuk` instead of `thuk` if the executable isn't on PATH. In piped/noninteractive CLI search, results are printed with topic numbers; open one using `--topic NUMBER`. PDF export replaces the destination file if it exists. Git is a text-only reference and has no source PDF. Option 6 bundles the original Docker CLI cheat sheet PDF unchanged and extracts its two columns into separate readable sections. Commands are reproduced from the supplied document.
 
 ## Python API
 
@@ -116,4 +118,4 @@ python -m unittest discover -s tests -v
 python -m pip wheel --no-deps . -w dist
 ```
 
-The topic index is stored in `src/thuk/data/contents.json` using zero-based start and exclusive end line offsets in the bundled text. Update that index whenever reference text line boundaries change. The four original PDFs retain their source authorship.
+The topic index is stored in `src/thuk/data/contents.json` using zero-based start and exclusive end line offsets in the bundled text. Update that index whenever reference text line boundaries change. The five original PDFs retain their source authorship.

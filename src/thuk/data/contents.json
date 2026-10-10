@@ -326,5 +326,43 @@
       "end": 65,
       "level": 1
     }
+  ],
+  "6": [
+    {
+      "title": "Document introduction",
+      "start": 0,
+      "end": 7,
+      "level": 1
+    },
+    {
+      "title": "INSTALLATION",
+      "start": 7,
+      "end": 15,
+      "level": 1
+    },
+    {
+      "title": "GENERAL COMMANDS",
+      "start": 15,
+      "end": 23,
+      "level": 1
+    },
+    {
+      "title": "IMAGES",
+      "start": 23,
+      "end": 38,
+      "level": 1
+    },
+    {
+      "title": "CONTAINERS",
+      "start": 38,
+      "end": 67,
+      "level": 1
+    },
+    {
+      "title": "DOCKER HUB",
+      "start": 67,
+      "end": 80,
+      "level": 1
+    }
   ]
 }

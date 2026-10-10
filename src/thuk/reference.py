@@ -11,19 +11,20 @@ SECTIONS = {
     3: ("Django Code", "django_code"),
     4: ("Docker Commands", "docker_commands"),
     5: ("Git Commands", "git_commands"),
+    6: ("Docker CLI Cheat Sheet", "docker_cheatsheet"),
 }
 
 
 def resource(section, suffix="txt"):
     if section not in SECTIONS:
-        raise ValueError("Choose a section from 1 to 5.")
+        raise ValueError(f"Choose a section from 1 to {max(SECTIONS)}.")
     if suffix == "pdf" and section == 5:
         raise ValueError("Git Commands is a text reference; it has no source PDF.")
     return files("thuk").joinpath("data", SECTIONS[section][1] + "." + suffix)
 
 
 def get_text(section):
-    """Return the complete reference text for a section numbered 1 to 5."""
+    """Return the complete reference text for a document in SECTIONS."""
     return resource(section).read_text(encoding="utf-8")
 
 

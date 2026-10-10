@@ -38,7 +38,7 @@ def answer_question(question, section=None, limit=3):
     if not isinstance(question, str) or not question.strip():
         raise ValueError('Enter a non-empty question.')
     if section is not None and section not in SECTIONS:
-        raise ValueError('Choose a section from 1 to 5.')
+        raise ValueError(f'Choose a section from 1 to {max(SECTIONS)}.')
     if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 5:
         raise ValueError('Choose an answer limit from 1 to 5.')
     query = set(_terms(question))
